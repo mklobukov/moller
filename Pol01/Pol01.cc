@@ -52,12 +52,17 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-int main(int argc,char** argv) {
-
+int main(int argc,char** argv)
+{
+    G4String outputFileName = "data.root";
   // Instantiate G4UIExecutive if interactive mode
   G4UIExecutive* ui = nullptr;
   if ( argc == 1 ) {
     ui = new G4UIExecutive(argc, argv);
+  }
+  else if (argv[2])
+  {
+      outputFileName = argv[2];
   }
 
   //choose the Random engine
@@ -101,7 +106,7 @@ int main(int argc,char** argv) {
 
   // set user action classes
   RunAction* run;
-  runManager->SetUserAction(run = new RunAction(det,prim));
+  runManager->SetUserAction(run = new RunAction(det,prim, outputFileName));
   runManager->SetUserAction(new EventAction(run, seeds));
   runManager->SetUserAction(new SteppingAction(det,prim,run));
 

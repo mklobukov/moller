@@ -56,19 +56,20 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim)
+RunAction::RunAction(DetectorConstruction* det, PrimaryGeneratorAction* prim, G4String outputName)
 : G4UserRunAction(),
   fGamma(0), fElectron(0), fPositron(0),
   fDetector(det), fPrimary(prim), fProcCounter(0), fAnalysisManager(0), 
   fTotalEventCount(0),
   fPhotonStats(), fElectronStats(), fPositronStats(), fOtherParticleStats(),
-    fAngleCOM(0)
+    fAngleCOM(0), fRootOutputFileName("data")
 {
   fGamma = G4Gamma::Gamma();
   fElectron = G4Electron::Electron();
   fPositron = G4Positron::Positron();
 
   fAngleCOM = -1.;
+  fRootOutputFileName = outputName;
 
   BookHisto();
   BookNTuples();
@@ -212,7 +213,7 @@ void RunAction::BookHisto()
   
   // Randomized assignment of file name
   // fAnalysisManager->OpenFile(thickness + "mm_" + std::to_string(rand()) + ".root");
-  fAnalysisManager->OpenFile("data1.root");
+  fAnalysisManager->OpenFile(fRootOutputFileName);
   fAnalysisManager->SetFirstHistoId(0);
   fAnalysisManager->SetFirstNtupleId(0);
 

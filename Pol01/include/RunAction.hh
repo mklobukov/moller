@@ -75,7 +75,7 @@ class RunAction : public G4UserRunAction
 
 public:
 
-    RunAction(DetectorConstruction*, PrimaryGeneratorAction*);
+    RunAction(DetectorConstruction*, PrimaryGeneratorAction*, G4String outputName);
     virtual ~RunAction();
 
     virtual void BeginOfRunAction(const G4Run*);
@@ -135,6 +135,7 @@ private:
     ParticleStatistics fOtherParticleStats;
 
     G4double fAngleCOM;
+    G4String fRootOutputFileName;
 };
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
