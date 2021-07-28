@@ -146,7 +146,8 @@ void RunAction::FillData(const G4ParticleDefinition* particle,
     G4double kinEnergy, G4double costheta,
     G4double phi,
     G4double longitudinalPolarization,
-    G4String processName = "none")
+    G4String processName,
+    G4double labScatterAngle)
 {
     G4int id = -1;
     ParticleStatistics currentParticleStatistics;
@@ -190,6 +191,7 @@ void RunAction::FillData(const G4ParticleDefinition* particle,
     fAnalysisManager->FillNtupleDColumn(1, 2, kinEnergy);
     fAnalysisManager->FillNtupleDColumn(1, 3, currentParticleStatistics.GetCurrentNumber());
     fAnalysisManager->FillNtupleSColumn(1, 4, processName);
+    fAnalysisManager->FillNtupleDColumn(1, 5, labScatterAngle);
     fAnalysisManager->AddNtupleRow(1);
 }
 
@@ -210,7 +212,7 @@ void RunAction::BookHisto()
   
   // Randomized assignment of file name
   // fAnalysisManager->OpenFile(thickness + "mm_" + std::to_string(rand()) + ".root");
-  fAnalysisManager->OpenFile("data-minus.root");
+  fAnalysisManager->OpenFile("data1.root");
   fAnalysisManager->SetFirstHistoId(0);
   fAnalysisManager->SetFirstNtupleId(0);
 
@@ -331,6 +333,7 @@ void RunAction::BookNTuples() {
     fAnalysisManager->CreateNtupleDColumn(currentNTuple, "Energy");
     fAnalysisManager->CreateNtupleDColumn(currentNTuple, "Polarization");
     fAnalysisManager->CreateNtupleSColumn(currentNTuple, "Process");
+    fAnalysisManager->CreateNtupleDColumn(currentNTuple, "LabScatterAngle");
     fAnalysisManager->FinishNtuple(currentNTuple);
 
     // ntuple # 2: center of mass angle vs number of particles per event

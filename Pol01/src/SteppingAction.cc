@@ -237,7 +237,8 @@ G4double E2 = endPoint->GetKineticEnergy();
     // This step generates a lot of data. Toggle the conditional to enable/disable
     if (bool recordDetectorData = true) {
         if (prePoint->GetTouchableHandle()->GetVolume() == fDetector->GetBox() &&
-            endPoint->GetTouchableHandle()->GetVolume() == fDetector->GetWorld())
+            endPoint->GetTouchableHandle()->GetVolume() == fDetector->GetWorld() &&
+            endPoint->GetTotalEnergy() > sqrt(100000.)) // > 1 MeV
         {
             G4ThreeVector position = endPoint->GetPosition();
             G4ThreeVector direction = endPoint->GetMomentumDirection();
@@ -247,6 +248,7 @@ G4double E2 = endPoint->GetKineticEnergy();
                 fPrimary->GetParticleGun()->GetParticleMomentumDirection();
             G4double polZ = endPoint->GetPolarization().z();
             G4double costheta = direction * beamDirection;
+            G4double labScatterAngle = acos(costheta);
 
             G4double xdir =
                 direction * G4PolarizationHelper::GetParticleFrameX(beamDirection);
@@ -259,11 +261,11 @@ G4double E2 = endPoint->GetKineticEnergy();
             G4double m = endPoint->GetMass(); // should be 0.511 MeV
             G4double EL = prePoint->GetTotalEnergy(); // should be 11,000 MeV
 
-            G4cout << "mass : " << m << ", prePoint E: " << EL << "\n";
+            // G4cout << "mass : " << m << ", prePoint E: " << EL << ", endPointE: " << endPoint->GetTotalEnergy() << "\n";
             G4double cosThetaCOM = (EL - costheta * EL - m) / (-EL + costheta * EL - m);
             thetaCOM = acos(cosThetaCOM);
 
-            fRunAction->FillData(part, kinEnergy, costheta, phi, polZ, procName);
+            fRunAction->FillData(part, kinEnergy, costheta, phi, polZ, procName, labScatterAngle);
         }
     }
 }

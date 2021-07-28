@@ -86,7 +86,9 @@ public:
     void FillData(const G4ParticleDefinition* particle,
         G4double kinEnergy, G4double costheta, G4double phi,
         G4double longitudinalPolarization,
-        G4String processName);
+        G4String processName,
+        G4double labScatterAngle);
+
     void FillData(const G4ParticleDefinition* particle,
         G4double kinEnergy,
         G4String processName,
