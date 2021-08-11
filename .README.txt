@@ -1,0 +1,12 @@
+The MOLLER experiment at Jefferson Laboratory aims at the measurement of the parity-violating 
+asymmetry in the scattering of longitudinally polarized electrons. The high-precision goals necessitate
+ estimation of background asymmetry resulting from electrons scattering from various materials into 
+ the detector. Since this asymmetry is impossible to calculate with sufficient precision, 
+ a computer simulation needed to be developed. Geant4 was chosen as a simulation platform, 
+ and its suitability was confirmed by simulating Moller scattering as well as Bremsstrahlung 
+ scattering in a thin iron foil and comparing results to the literature on the subject.
+ Having gained confidence in the ability of Geant4 to simulate these fundamental processes 
+ in isolation, we created a simulation with the targets of thicknesses comparable to or larger 
+ than the radiation length of iron. Results from both simulations will be presented and compared
+ to the available data.
+ 
