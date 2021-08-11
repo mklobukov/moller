@@ -142,6 +142,21 @@ void RunAction::FillData(const G4ParticleDefinition* particle,
     fAnalysisManager->AddNtupleRow(0);
 }
 
+void RunAction::FillDataLight(G4String particleName, G4double energy)
+{
+    fAnalysisManager->FillNtupleSColumn(3, 0, particleName);
+    fAnalysisManager->FillNtupleDColumn(3, 1, energy);
+    fAnalysisManager->AddNtupleRow(3);
+}
+
+void RunAction::FillBrehmData(G4double ee, G4double pe, G4double ep, G4double pp)
+{
+    fAnalysisManager->FillNtupleDColumn(4, 0, ee);
+    fAnalysisManager->FillNtupleDColumn(4, 1, pe);
+    fAnalysisManager->FillNtupleDColumn(4, 2, ep);
+    fAnalysisManager->FillNtupleDColumn(4, 3, pp);
+    fAnalysisManager->AddNtupleRow(4);
+}
 
 void RunAction::FillData(const G4ParticleDefinition* particle,
     G4double kinEnergy, G4double costheta,
@@ -187,10 +202,13 @@ void RunAction::FillData(const G4ParticleDefinition* particle,
     }
 
     // G4cout << particle->GetParticleName() << " " << longitudinalPolarization << " " << kinEnergy << " " << currentParticleStatistics.GetCurrentNumber() << "\n";
-    fAnalysisManager->FillNtupleSColumn(1, 0, particle->GetParticleName());
-    fAnalysisManager->FillNtupleDColumn(1, 1, longitudinalPolarization);
+    G4String particleName = particle->GetParticleName();
+    if (!strcmp(particleName, "gamma")) particleName = "p";
+    
+    fAnalysisManager->FillNtupleSColumn(1, 0, particleName);
+    fAnalysisManager->FillNtupleDColumn(1, 1, currentParticleStatistics.GetCurrentNumber());
     fAnalysisManager->FillNtupleDColumn(1, 2, kinEnergy);
-    fAnalysisManager->FillNtupleDColumn(1, 3, currentParticleStatistics.GetCurrentNumber());
+    fAnalysisManager->FillNtupleDColumn(1, 3, longitudinalPolarization);
     fAnalysisManager->FillNtupleSColumn(1, 4, processName);
     fAnalysisManager->FillNtupleDColumn(1, 5, labScatterAngle);
     fAnalysisManager->AddNtupleRow(1);
@@ -343,6 +361,24 @@ void RunAction::BookNTuples() {
     fAnalysisManager->CreateNtupleDColumn(currentNTuple, "COMAngle");
     fAnalysisManager->CreateNtupleDColumn(currentNTuple, "NScattered");
     fAnalysisManager->FinishNtuple(currentNTuple);
+
+    // ntuple # 3: lightweight tuple recording only particle name and energy
+    currentNTuple++;
+    fAnalysisManager->CreateNtuple("Particle Name and energy", "Name, E");
+    fAnalysisManager->CreateNtupleSColumn(currentNTuple, "ParticleName");
+    fAnalysisManager->CreateNtupleDColumn(currentNTuple, "Energy");
+    fAnalysisManager->FinishNtuple(currentNTuple);
+
+    // ntuple # 4: for recording brehmstraulung photons and their causiing electorns
+    currentNTuple++;
+    fAnalysisManager->CreateNtuple("Brehm", "ElectronE, PhotonE, ElectronPol, PhotonPol");
+    fAnalysisManager->CreateNtupleDColumn(currentNTuple, "ElectronE");
+    fAnalysisManager->CreateNtupleDColumn(currentNTuple, "PhotonE");
+    fAnalysisManager->CreateNtupleDColumn(currentNTuple, "ElectronPol");
+    fAnalysisManager->CreateNtupleDColumn(currentNTuple, "PhotonPol");
+    fAnalysisManager->FinishNtuple(currentNTuple);
+
+    G4cout << "Registered the NTuples... " << "\n";
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

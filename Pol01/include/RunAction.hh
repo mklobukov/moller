@@ -102,6 +102,10 @@ public:
         G4double secondaryCOMAngleCosine,
         G4double secondaryKE);
 
+    void FillDataLight(G4String particleName, G4double energy);
+
+    void FillBrehmData(G4double electronE, G4double photonE, G4double electronP, G4double photonP);
+
     void EventFinished();
 
     ParticleStatistics GetElectronStatistics();

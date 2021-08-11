@@ -60,7 +60,6 @@ DetectorConstruction::DetectorConstruction()
   fWorldSize = 1.*m;
   SetTargetMaterial("G4_Fe");  
   SetWorldMaterial("G4_Galactic");  // 1.0-25 [g/cm3] density. Effectively vacuum
-  //SetWorldMaterial("G4_AIR"); 
   fMessenger = new DetectorMessenger(this);
 }
 

@@ -46,7 +46,7 @@ class SteppingAction : public G4UserSteppingAction
 {
 public:
 
-  SteppingAction(DetectorConstruction*, PrimaryGeneratorAction*, RunAction*);
+  SteppingAction(DetectorConstruction*, PrimaryGeneratorAction*, RunAction*, G4double);
   virtual ~SteppingAction();
 
   virtual void UserSteppingAction(const G4Step*);
@@ -55,6 +55,8 @@ private:
   DetectorConstruction*   fDetector;
   PrimaryGeneratorAction* fPrimary;
   RunAction*              fRunAction;
+
+  G4double                fLowerEnergyCutoff;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

@@ -54,15 +54,24 @@
 
 int main(int argc,char** argv)
 {
-    G4String outputFileName = "data.root";
+  // default output root file name. can be overridden via cmd params
+  G4String outputFileName = "data.root";
+
+  // default cutoff energy for moller data collection. can be overridden via cmd params
+  G4double cutoffEnergy = 1.;
+
   // Instantiate G4UIExecutive if interactive mode
   G4UIExecutive* ui = nullptr;
   if ( argc == 1 ) {
     ui = new G4UIExecutive(argc, argv);
   }
-  else if (argv[2])
+  if (argv[2])
   {
       outputFileName = argv[2];
+  }
+  if (argv[3])
+  {
+      cutoffEnergy = atof(argv[3]);
   }
 
   //choose the Random engine
@@ -108,7 +117,7 @@ int main(int argc,char** argv)
   RunAction* run;
   runManager->SetUserAction(run = new RunAction(det,prim, outputFileName));
   runManager->SetUserAction(new EventAction(run, seeds));
-  runManager->SetUserAction(new SteppingAction(det,prim,run));
+  runManager->SetUserAction(new SteppingAction(det,prim,run,cutoffEnergy));
 
   // get the pointer to the User Interface manager
     G4UImanager* UImanager = G4UImanager::GetUIpointer();

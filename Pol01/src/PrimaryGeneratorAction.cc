@@ -68,19 +68,6 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction()
 
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
-  //this function is called at the begining of event
-  //
-    //G4String fileName = "random/event_" + std::to_string(anEvent->GetEventID()) + ".rndm.stat";
-    //if (std::filesystem::exists(fileName))
-    //{
-    //    CLHEP::HepRandom::getTheEngine()->restoreStatus(fileName.c_str());
-    //}
-    //else
-    //{
-    //    CLHEP::HepRandom::getTheEngine()->saveStatus(fileName.c_str());
-    //}
-
-    //CLHEP::HepRandom::Set
   G4double halfSize = 0.5*(fDetector->GetWorldSize());
   G4double z0 = - halfSize;
   

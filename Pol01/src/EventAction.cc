@@ -58,6 +58,8 @@ EventAction::~EventAction()
 
 void EventAction::BeginOfEventAction(const G4Event*)
 {
+	// check if there are available seeds on the stack. if yes, override current seeds
+	
 	//if (fSeeds.size() > 0)
 	//{		
 	//	std::this_thread::sleep_for(std::chrono::seconds(3));
